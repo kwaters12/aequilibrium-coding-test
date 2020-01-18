@@ -1,6 +1,6 @@
 export interface Transformer {
     name: string
-    allegiance: 'autobot' | 'decepticon'
+    allegiance: string
     strength: number
     intelligence: number
     speed: number

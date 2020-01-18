@@ -1,2 +1,2 @@
-export { Allegiances } from './allegiances.enum'
-export { Transformer } from './transformer.interface'
+export * from './allegiances.enum'
+export * from './transformer.interface'
