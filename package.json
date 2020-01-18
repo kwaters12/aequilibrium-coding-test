@@ -1,0 +1,11 @@
+{
+  "name": "aequilibrium",
+  "version": "1.0.0",
+  "description": "Aequilibrium Coding Test",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "Kelly Waters",
+  "license": "ISC"
+}
