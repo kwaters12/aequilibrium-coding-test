@@ -1,4 +1,4 @@
-import { Transformer, Allegiances } from './interfaces'
+import { Allegiances } from './interfaces'
 
 const autobotsNames = [
   "Optimus Prime",

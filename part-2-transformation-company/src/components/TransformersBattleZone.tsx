@@ -118,7 +118,7 @@ export class TransformersBattleZone extends React.Component<Props, State> {
     this.setState({
       battles: battles,
       winningTeam: survivingAutobots.length > survivingDecepticons.length ? autobotBattlers : decepticonBattlers,
-      losingTeam: survivingAutobots.length < survivingDecepticons.length ? survivingAutobots : survivingAutobots
+      losingTeam: survivingAutobots.length < survivingDecepticons.length ? survivingAutobots : survivingDecepticons
     })
   }
 
@@ -164,15 +164,15 @@ export class TransformersBattleZone extends React.Component<Props, State> {
           <h3>Decepticons</h3>
           <TransformersList transformers={decepticons} direction='right' onChange={this.handleUpdateDecepticons.bind(this)} />
         </div>
-        <div style={{ width: '100%', display: 'block' }}>
-          <Button onClick={this.battleTime.bind(this)}>Let the Battle Commence!</Button>
+        <div style={{ width: '100%', paddingTop: '30px', display: 'block' }}>
+          <Button variant="outlined" color="secondary" onClick={this.battleTime.bind(this)}>Start Battle!</Button>
         </div>
-        <div style={{ width: '500px', margin: '0 auto', display: battles.length && !catastrophe ? 'block' : 'none' }}>
+        <div style={{ width: '500px', margin: '30px auto', display: battles.length && !catastrophe ? 'block' : 'none' }}>
           <strong>{battles.length}</strong> battle{battles.length > 1 ? 's' : ''} <br /><br />
           <strong>Winning team ({winningTeamName}):</strong> {winningTeam.map(transformer => transformer.name).join(', ')} <br /><br />
           <strong>Survivors from the losing team ({losingTeamName}):</strong> {losingTeam.map(transformer => transformer.name).join(', ')}
         </div>
-        <div style={{ width: '100%', display: catastrophe ? 'block' : 'none' }}>
+        <div style={{ width: '100%', margin: '30px auto', display: catastrophe ? 'block' : 'none' }}>
           Catastrophe!! Optimus Prime and Predaking clashed and destroyed everyone.
         </div>
       </div >
