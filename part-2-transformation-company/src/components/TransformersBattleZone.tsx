@@ -17,9 +17,9 @@ type State = {
 }
 
 interface Battle {
-  winner: Transformer,
-  autobot: Transformer,
-  decepticon: Transformer
+  winner: Battler,
+  autobot: Battler,
+  decepticon: Battler
 }
 
 interface Battler extends Transformer {
@@ -30,8 +30,8 @@ export class TransformersBattleZone extends React.Component<Props, State> {
   constructor(props: any) {
     super(props)
     this.state = {
-      autobots: TransformersData.autobots,
-      decepticons: TransformersData.decepticons,
+      autobots: TransformersData[Allegiances.AUTOBOTS],
+      decepticons: TransformersData[Allegiances.DECEPTICONS],
       selectedAutobots: [],
       selectedDecepticons: [],
       battles: [],
@@ -72,33 +72,29 @@ export class TransformersBattleZone extends React.Component<Props, State> {
   // ● The team who eliminated the largest number of the opposing team is the winner
   battleTime() {
     const { selectedAutobots, selectedDecepticons } = this.state
-    let autobotBattlers: Battler[] = [], decepticonBattlers: Battler[] = [], battles = []
+    const battles: Battle[] = []
 
-    selectedAutobots.forEach(autobot => {
-      autobotBattlers.push({
+    const autobotBattlers: Battler[] = selectedAutobots.map(autobot => {
+      return {
         ...autobot,
         overallRating: autobot.strength +
           autobot.intelligence +
           autobot.speed +
           autobot.endurance +
           autobot.firepower
-      })
-    })
+      }
+    }).sort((a: Battler, b: Battler) => a.rank - b.rank)
 
-    autobotBattlers.sort((a, b) => a.rank - b.rank)
-
-    selectedDecepticons.forEach(decepticon => {
-      decepticonBattlers.push({
+    const decepticonBattlers: Battler[] = selectedDecepticons.map(decepticon => {
+      return {
         ...decepticon,
         overallRating: decepticon.strength +
           decepticon.intelligence +
           decepticon.speed +
           decepticon.endurance +
           decepticon.firepower
-      })
-    })
-
-    decepticonBattlers.sort((a, b) => a.rank - b.rank)
+      }
+    }).sort((a: Battler, b: Battler) => a.rank - b.rank)
 
     for (let i = 0;
       i < (autobotBattlers.length > decepticonBattlers.length ? decepticonBattlers.length : autobotBattlers.length);
@@ -151,21 +147,30 @@ export class TransformersBattleZone extends React.Component<Props, State> {
 
   render() {
     const { autobots, decepticons, battles, winningTeam, losingTeam, catastrophe } = this.state
+    let winningTeamName = '', losingTeamName = ''
+
+    if (winningTeam.length) {
+      winningTeamName = winningTeam[0].allegiance === Allegiances.AUTOBOTS ? 'Autobots' : 'Decepticons'
+      losingTeamName = winningTeamName === 'Autobots' ? 'Decepticons' : 'Autobots'
+    }
+
     return (
       <div>
         <div style={{ width: '50%', float: 'left', display: 'inline-block' }}>
+          <h3>Autobots</h3>
           <TransformersList transformers={autobots} direction='left' onChange={this.handleUpdateAutobots.bind(this)} />
         </div>
         <div style={{ width: '50%', float: 'right', display: 'inline-block' }}>
+          <h3>Decepticons</h3>
           <TransformersList transformers={decepticons} direction='right' onChange={this.handleUpdateDecepticons.bind(this)} />
         </div>
         <div style={{ width: '100%', display: 'block' }}>
           <Button onClick={this.battleTime.bind(this)}>Let the Battle Commence!</Button>
         </div>
-        <div style={{ width: '100%', display: battles.length && !catastrophe ? 'block' : 'none' }}>
-          {battles.length} battle{battles.length ? 's' : ''} <br />
-          Winning team: {winningTeam.map(transformer => transformer.name).join(', ')} <br />
-          Survivors from the losing team: {losingTeam.map(transformer => transformer.name).join(', ')}
+        <div style={{ width: '500px', margin: '0 auto', display: battles.length && !catastrophe ? 'block' : 'none' }}>
+          <strong>{battles.length}</strong> battle{battles.length > 1 ? 's' : ''} <br /><br />
+          <strong>Winning team ({winningTeamName}):</strong> {winningTeam.map(transformer => transformer.name).join(', ')} <br /><br />
+          <strong>Survivors from the losing team ({losingTeamName}):</strong> {losingTeam.map(transformer => transformer.name).join(', ')}
         </div>
         <div style={{ width: '100%', display: catastrophe ? 'block' : 'none' }}>
           Catastrophe!! Optimus Prime and Predaking clashed and destroyed everyone.

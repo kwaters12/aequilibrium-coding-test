@@ -1,4 +1,4 @@
 export enum Allegiances {
-    AUTOBOTS = 'autobots',
-    DECEPTICONS = 'decepticons'
+    AUTOBOTS = 'A',
+    DECEPTICONS = 'D'
 }
