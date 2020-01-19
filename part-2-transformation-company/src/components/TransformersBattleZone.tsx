@@ -1,19 +1,25 @@
 import React from 'react';
 import { TransformersData } from '../transformers-data'
 import { Transformer, Allegiances } from '../interfaces'
-import TransferList from './TransferList'
+import TransformersList from './TransformersList'
 import { Button } from '@material-ui/core';
 
 type Props = {}
 type State = {
-  autobots: any[],
-  decepticons: any[],
-  selectedAutobots: any[],
-  selectedDecepticons: any[],
-  battles: any[],
+  autobots: Transformer[],
+  decepticons: Transformer[],
+  selectedAutobots: Transformer[],
+  selectedDecepticons: Transformer[],
+  battles: Battle[],
   winningTeam: Battler[],
   losingTeam: Battler[],
   catastrophe: boolean
+}
+
+interface Battle {
+  winner: Transformer,
+  autobot: Transformer,
+  decepticon: Transformer
 }
 
 interface Battler extends Transformer {
@@ -147,10 +153,10 @@ export class TransformersBattleZone extends React.Component<Props, State> {
     return (
       <div>
         <div style={{ width: '50%', float: 'left', display: 'inline-block' }}>
-          <TransferList transformers={autobots} direction='left' onChange={this.handleUpdateAutobots.bind(this)} />
+          <TransformersList transformers={autobots} direction='left' onChange={this.handleUpdateAutobots.bind(this)} />
         </div>
         <div style={{ width: '50%', float: 'right', display: 'inline-block' }}>
-          <TransferList transformers={decepticons} direction='right' onChange={this.handleUpdateDecepticons.bind(this)} />
+          <TransformersList transformers={decepticons} direction='right' onChange={this.handleUpdateDecepticons.bind(this)} />
         </div>
         <div style={{ width: '100%', display: 'block' }}>
           <Button onClick={this.battleTime.bind(this)}>Let the Battle Commence!</Button>

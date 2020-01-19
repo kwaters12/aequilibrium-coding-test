@@ -1,19 +1,9 @@
 import { makeStyles, Theme, createStyles } from "@material-ui/core";
 import React from 'react';
+import { Transformer } from '../interfaces/transformer.interface'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      margin: 'auto',
-    },
-    paper: {
-      width: 250,
-      height: 500,
-      overflow: 'auto',
-    },
-    button: {
-      margin: theme.spacing(0.1, 0),
-    },
     transformersList: {
       margin: 0,
       padding: 0
@@ -23,20 +13,16 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: '4px',
       padding: 0,
       display: 'block'
-    },
-    listItem: {
-      borderTop: '1px solid #ddd',
-      borderBottom: '1px solid #ddd',
-    },
-    selected: {
-      border: '1px solid rgb(195, 31, 60)'
     }
   }),
 );
 
-export default function TransformersListItem(props: { transformer: Transformer }) {
+type TransformersListItemProps = {
+  transformer: Transformer
+}
+
+export default function TransformersListItem({ transformer }: TransformersListItemProps) {
   const classes = useStyles();
-  const { transformer } = props
 
   return (
     <span style={{ width: '100%', fontSize: '12px' }}>

@@ -6,6 +6,7 @@ import Paper from '@material-ui/core/Paper';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import React from 'react';
 import TransformersListItem from './TransformersListItem';
+import { Transformer } from '../interfaces'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,16 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     button: {
       margin: theme.spacing(0.1, 0),
-    },
-    transformersList: {
-      margin: 0,
-      padding: 0
-    },
-    transformersListItem: {
-      margin: 0,
-      marginRight: '4px',
-      padding: 0,
-      display: 'block'
     },
     listItem: {
       borderTop: '1px solid #ddd',
@@ -48,11 +39,17 @@ function intersection(a: Transformer[], b: Transformer[]) {
   return a.filter(value => b.indexOf(value) !== -1);
 }
 
-export default function TransformersList(props: { transformers: Transformer[], direction: string, onChange: any }) {
+type TransformersListProps = {
+  transformers: Transformer[],
+  direction: string,
+  onChange: any
+}
+
+export default function TransformersList({ transformers, direction, onChange }: TransformersListProps) {
   const classes = useStyles();
   const [checked, setChecked] = React.useState<Transformer[]>([]);
-  const [left, setLeft] = React.useState<Transformer[]>(props.direction === 'left' ? props.transformers : []);
-  const [right, setRight] = React.useState<Transformer[]>(props.direction === 'right' ? props.transformers : []);
+  const [left, setLeft] = React.useState<Transformer[]>(direction === 'left' ? transformers : []);
+  const [right, setRight] = React.useState<Transformer[]>(direction === 'right' ? transformers : []);
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
@@ -75,7 +72,7 @@ export default function TransformersList(props: { transformers: Transformer[], d
     const newLeft: Transformer[] = []
     setRight(newRight);
     setLeft(newLeft);
-    props.onChange(props.direction === 'left' ? newRight : newLeft)
+    onChange(direction === 'left' ? newRight : newLeft)
   };
 
   const handleCheckedRight = () => {
@@ -84,7 +81,7 @@ export default function TransformersList(props: { transformers: Transformer[], d
     setRight(newRight);
     setLeft(newLeft);
     setChecked(not(checked, leftChecked));
-    props.onChange(props.direction === 'left' ? newRight : newLeft)
+    onChange(direction === 'left' ? newRight : newLeft)
   };
 
   const handleCheckedLeft = () => {
@@ -93,7 +90,7 @@ export default function TransformersList(props: { transformers: Transformer[], d
     setLeft(newLeft);
     setRight(newRight);
     setChecked(not(checked, rightChecked));
-    props.onChange(props.direction === 'left' ? newRight : newLeft)
+    onChange(direction === 'left' ? newRight : newLeft)
 
   };
 
@@ -102,18 +99,16 @@ export default function TransformersList(props: { transformers: Transformer[], d
     const newLeft = left.concat(right)
     setLeft(newLeft);
     setRight(newRight);
-    props.onChange(props.direction === 'left' ? newRight : newLeft)
+    onChange(direction === 'left' ? newRight : newLeft)
   };
 
   const customList = (items: Transformer[]) => (
     <Paper className={classes.paper}>
       <List dense component="div" role="list">
         {items.map((value: Transformer, index: number) => {
-          const labelId = `transfer-list-item-${value}-label`;
-
           return (
             <ListItem className={`listItem ${checked.indexOf(value) !== -1 ? classes.selected : ''}`} key={index} role="listitem" button onClick={handleToggle(value)}>
-              <TransformersListItem transformer={value as Transformer} />
+              <TransformersListItem transformer={value} />
             </ListItem>
           );
         })}
