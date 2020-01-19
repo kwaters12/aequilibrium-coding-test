@@ -105,6 +105,7 @@ const autobotsNames = [
 
 const decepticonsNames = [
   "Megatron",
+  "Predaking",
   "Soundwave",
   "Shockwave",
   "Skywarp",
@@ -150,7 +151,6 @@ const decepticonsNames = [
   "Headstrong",
   "Razorclaw",
   "Divebomb",
-  "Predaking",
   "Runamuck",
   "Runabout",
   "Rippersnapper",
@@ -190,14 +190,14 @@ export const TransformersData = {
     return {
       name: name,
       allegiance: Allegiances.DECEPTICONS,
-      strength: Math.floor(Math.random() * 10),
-      intelligence: Math.floor(Math.random() * 10),
-      speed: Math.floor(Math.random() * 10),
-      endurance: Math.floor(Math.random() * 10),
-      rank: Math.floor(Math.random() * 10),
-      courage: Math.floor(Math.random() * 10),
-      firepower: Math.floor(Math.random() * 10),
-      skill: Math.floor(Math.random() * 10)
+      strength: Math.ceil(Math.random() * 10),
+      intelligence: Math.ceil(Math.random() * 10),
+      speed: Math.ceil(Math.random() * 10),
+      endurance: Math.ceil(Math.random() * 10),
+      rank: Math.ceil(Math.random() * 10),
+      courage: Math.ceil(Math.random() * 10),
+      firepower: Math.ceil(Math.random() * 10),
+      skill: Math.ceil(Math.random() * 10)
     }
   })
 }
