@@ -72,7 +72,7 @@ export class TransformersBattleZone extends React.Component<Props, State> {
   // ● The team who eliminated the largest number of the opposing team is the winner
   battleTime() {
     const { selectedAutobots, selectedDecepticons } = this.state
-    let autobotBattlers: Battler[] = [], decepticonBattlers: Battler[] = [], battles = [], autoBotsScore = 0, decepticonsScore = 0
+    let autobotBattlers: Battler[] = [], decepticonBattlers: Battler[] = [], battles = []
 
     selectedAutobots.forEach(autobot => {
       autobotBattlers.push({
@@ -107,6 +107,7 @@ export class TransformersBattleZone extends React.Component<Props, State> {
       let winner = this.performBattle(autobot, decepticon)
       battles.push({ winner, autobot, decepticon })
     }
+
     let survivingAutobots: Battler[] = []
     let survivingDecepticons: Battler[] = []
 
@@ -120,7 +121,7 @@ export class TransformersBattleZone extends React.Component<Props, State> {
 
     this.setState({
       battles: battles,
-      winningTeam: survivingAutobots.length > survivingDecepticons.length ? survivingAutobots : survivingDecepticons,
+      winningTeam: survivingAutobots.length > survivingDecepticons.length ? autobotBattlers : decepticonBattlers,
       losingTeam: survivingAutobots.length < survivingDecepticons.length ? survivingAutobots : survivingAutobots
     })
   }
